@@ -47,20 +47,17 @@ public class WithMyBatis implements BeanFactoryPostProcessor {
         if (factory == null) {
             factory = configurableListableBeanFactory.getBean(SqlSessionFactory.class);
         }
-
         RegisterMyBatisFactory registerMyBatisFactory = configurableListableBeanFactory.getBean(
                 RegisterMyBatisFactory.class);
+
         if (registerMyBatisFactory == null) return;
         String mapperPackage = registerMyBatisFactory.getPackage();
-        try {
-            // 获取指定包下所有class
-            List<Class<?>> allClass = getClassByPackage(mapperPackage);
-            // 通过@Mapper过滤无效class
-            List<Class<?>> interfaceByWithMyBatis = getInterfaceByMapper(allClass);
-            registerMyBatis(interfaceByWithMyBatis);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        // 获取指定包下所有class
+        List<Class<?>> allClass = getClassByPackage(mapperPackage);
+        // 通过@Mapper过滤无效class
+        List<Class<?>> interfaceByWithMyBatis = getInterfaceByMapper(allClass);
+        // 将所有Mapper注册到IOC中
+        registerMyBatis(interfaceByWithMyBatis);
     }
 
     /**
@@ -76,6 +73,7 @@ public class WithMyBatis implements BeanFactoryPostProcessor {
 
     /**
      * 通过指定注解获取接口
+     * @return 过滤结果
      */
     private List<Class<?>> getInterfaceByMapper(List<Class<?>> clazz) {
         return clazz.stream().filter(aClass -> {
@@ -89,9 +87,9 @@ public class WithMyBatis implements BeanFactoryPostProcessor {
      * 通过包名获取所有类
      * @return 检索结果
      */
-    private List<Class<?>> getClassByPackage(String packageName) throws IOException, ClassNotFoundException {
-
+    private List<Class<?>> getClassByPackage(String packageName) {
         String path = packageName.replace(".", "/");
+        // 获取指定包完整路径
         String completePath = Thread.currentThread().getContextClassLoader().getResource("/" + path).toString()
                                     .replaceFirst("file:", "");
         File file = new File(completePath);
@@ -99,20 +97,22 @@ public class WithMyBatis implements BeanFactoryPostProcessor {
         if (file.exists()) {
             File[] files = file.listFiles();
             if (files == null) return clazz;
-            for (File value : files) {
-                if (value.isDirectory()) {
-                    clazz.addAll(getClassByPackage(packageName + "." + value.getName()));
+            for (File target : files) {
+                if (target.isDirectory()) {
+                    // 如果是文件夹，那么递归它
+                    clazz.addAll(getClassByPackage(packageName + "." + target.getName()));
                 }
-                if (value.isFile()) {
-                    String fileName = packageName + '.' + value.getName();
+
+                if (target.isFile()) {
+                    String fileName = packageName + '.' + target.getName();
                     if (fileName.endsWith(".class")) {
                         fileName = fileName.substring(0, fileName.length() - 6);
+                        // 通过类加载器去加载它
+                        Class<?> targetClass = getClass(fileName);
+
+                        if (targetClass == null) continue;
+                        clazz.add(targetClass);
                     }
-
-                    Class<?> targetClass = getClass(fileName);
-
-                    if (targetClass == null) continue;
-                    clazz.add(targetClass);
                 }
             }
         }
@@ -133,10 +133,13 @@ public class WithMyBatis implements BeanFactoryPostProcessor {
     }
 
     /**
-     * mybatis
+     * mybatis，将其注册在容器中，整合器就可以获取到指定包名
      */
     public interface RegisterMyBatisFactory {
 
+        /**
+         * 获取mapper所在的包
+         */
         String getPackage();
 
     }

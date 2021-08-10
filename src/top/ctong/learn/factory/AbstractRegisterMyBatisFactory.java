@@ -15,7 +15,7 @@ import top.ctong.learn.utils.WithMyBatis;
  * ░     ░ ░      ░  ░
  * Copyright 2021 Clover.
  * <p>
- *
+ * 用于扫描MyBatis映射接口
  * </p>
  * @author Clover
  * @version V1.0

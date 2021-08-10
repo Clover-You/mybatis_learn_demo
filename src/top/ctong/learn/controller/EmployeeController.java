@@ -1,5 +1,7 @@
 package top.ctong.learn.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -35,6 +37,8 @@ import java.io.Serializable;
 @RequestMapping("/employee")
 public class EmployeeController {
 
+    Logger log = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private EmployeeService employeeService;
 
@@ -43,7 +47,6 @@ public class EmployeeController {
     public String queryEmployee(@PathVariable Integer id) {
         try {
             Assert.notNull(id, "员工id不能为空");
-            SpringUtils springUtils = new SpringUtils();
             Employee query = employeeService.query(id);
             return query.toString();
         } catch (IllegalArgumentException e) {

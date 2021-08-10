@@ -74,7 +74,7 @@ public class EmployeeServiceImpl implements Serializable, EmployeeService {
      */
     @Override
     public Employee query(Integer id) {
-        return new Employee();
+        return employeeDao.query(id);
     }
 
     /**

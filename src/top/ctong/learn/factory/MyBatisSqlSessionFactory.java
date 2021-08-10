@@ -44,6 +44,7 @@ public class MyBatisSqlSessionFactory implements Serializable {
 
     @Bean
     public SqlSessionFactory getSqlSessionFactory() throws IOException {
+        System.out.println("getSqlSessionFactory");
         try (InputStream configStream = getConfigStream()) {
             return new SqlSessionFactoryBuilder().build(configStream);
         }

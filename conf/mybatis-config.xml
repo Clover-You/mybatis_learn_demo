@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 配置一个资源配置文件 -->
+    <properties resource="jdbc-config.properties"/>
+    <settings>
+        <!--    开启驼峰命名自动映射    -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <!-- 这里配置的是一个类型 -->
+        <package name="com.ctong.learn.domain"/>
+
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <!--  事务管理器  -->
+            <transactionManager type="JDBC"/>
+            <!--  配置连接池  -->
+            <dataSource type="POOLED">
+                <!-- 这里根据`jdbc.properties`的配置来配置连接数据库 -->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.user}"/>
+                <property name="password" value="${jdbc.pass}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!-- 这里配置的是你的dao层的包名 -->
+        <!--        <package name="com.ctong.learn.dao"/>-->
+        <!--    引入每一个接口的实现配置文件    -->
+        <mapper resource="mapping/EmployeeDao.xml"/>
+        <!--        <package name="mapper/EmployeeDao.xml"/>-->
+    </mappers>
+</configuration>
+

@@ -34,3 +34,4 @@ configurableListableBeanFactory.registerSingleton(class.getName(), mapper);
 ```
 
 注册的Bean是单例的，可能会有问题
+

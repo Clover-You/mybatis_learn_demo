@@ -2,6 +2,8 @@ package top.ctong.learn.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import top.ctong.learn.dao.EmployeeDao;
 import top.ctong.learn.domain.Employee;
 import top.ctong.learn.service.EmployeeService;
@@ -42,8 +44,9 @@ public class EmployeeServiceImpl implements Serializable, EmployeeService {
      * @return 受影响行数
      */
     @Override
+    @Transactional(propagation = Propagation.NEVER)
     public int insert(Employee dao) {
-        return 0;
+        return employeeDao.insert(dao);
     }
 
     /**
@@ -63,7 +66,6 @@ public class EmployeeServiceImpl implements Serializable, EmployeeService {
      */
     @Override
     public int delete(Integer id) {
-        //        return employeeDao.delete(id);
         return 0;
     }
 
@@ -88,6 +90,16 @@ public class EmployeeServiceImpl implements Serializable, EmployeeService {
     }
 
     /**
+     * 新增dao
+     * @param dao 新增的对象
+     * @return 新增对象结果
+     */
+    @Override
+    public int insertReturnKey(Employee dao) {
+        return employeeDao.insertReturnKey(dao);
+    }
+
+    /**
      * 通过一个dao层对象条件查询一个对象
      * @param dao dao层对象
      * @return 通过dao层对象查询结果
@@ -103,7 +115,7 @@ public class EmployeeServiceImpl implements Serializable, EmployeeService {
      */
     @Override
     public List<Employee> queryAll() {
-        return null;
+        return employeeDao.queryAll();
     }
 
     /**
@@ -114,6 +126,17 @@ public class EmployeeServiceImpl implements Serializable, EmployeeService {
     @Override
     public List<Employee> queryAll(Employee dao) {
         return null;
+    }
+
+    /**
+     * 通过员工名和员工id查询员工信息
+     * @param empName 员工名
+     * @param id 员工id
+     * @return 员工详细信息
+     */
+    @Override
+    public Employee queryByNameAndId(String empName, Integer id) {
+        return employeeDao.queryByNameAndId(empName, id);
     }
 
 }

@@ -1,8 +1,9 @@
-package top.ctong.learn.dao;
+package top.ctong.learn.domain;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import top.ctong.learn.domain.Employee;
+import lombok.Data;
+
+import java.io.Serializable;
+
 /**
  * █████▒█      ██  ▄████▄   ██ ▄█▀     ██████╗ ██╗   ██╗ ██████╗
  * ▓██   ▒ ██  ▓██▒▒██▀ ▀█   ██▄█▒      ██╔══██╗██║   ██║██╔════╝
@@ -15,22 +16,24 @@ import top.ctong.learn.domain.Employee;
  * ░     ░ ░      ░  ░
  * Copyright 2021 Clover.
  * <p>
- * Employee 持久层
+ * 员工工资
  * </p>
  * @author Clover
  * @version V1.0
- * @class EmployeeDao
- * @create 2021-08-09 4:43 下午
+ * @class Salary
+ * @create 2021-08-11 9:34 下午
  */
-@Mapper
-public interface EmployeeDao extends GenericDao<Employee> {
+@Data
+public class Salary implements Serializable {
 
-    /**
-     * 通过员工名和员工id查询员工信息
-     * @param empName 员工名
-     * @param id 员工id
-     * @return 员工详细信息
-     */
-    Employee queryByNameAndId(@Param("empName") String empName, @Param("id") Integer id);
+    private static final long serialVersionUID = 4589851267399554580L;
+
+    private Integer id;
+
+    private Double money;
+
+    private Integer empId;
+
+    private Employee emp;
 
 }

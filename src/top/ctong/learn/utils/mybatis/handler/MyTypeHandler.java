@@ -1,8 +1,15 @@
-package top.ctong.learn.dao;
+package top.ctong.learn.utils.mybatis.handler;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import top.ctong.learn.domain.Employee;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
+
+import java.io.Serializable;
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * █████▒█      ██  ▄████▄   ██ ▄█▀     ██████╗ ██╗   ██╗ ██████╗
  * ▓██   ▒ ██  ▓██▒▒██▀ ▀█   ██▄█▒      ██╔══██╗██║   ██║██╔════╝
@@ -15,22 +22,39 @@ import top.ctong.learn.domain.Employee;
  * ░     ░ ░      ░  ░
  * Copyright 2021 Clover.
  * <p>
- * Employee 持久层
+ * mybatis自定义类型处理器
  * </p>
  * @author Clover
  * @version V1.0
- * @class EmployeeDao
- * @create 2021-08-09 4:43 下午
+ * @class MyTypeHandler
+ * @create 2021-08-11 3:37 下午
  */
-@Mapper
-public interface EmployeeDao extends GenericDao<Employee> {
+public class MyTypeHandler extends BaseTypeHandler<MyEnum> {
 
-    /**
-     * 通过员工名和员工id查询员工信息
-     * @param empName 员工名
-     * @param id 员工id
-     * @return 员工详细信息
-     */
-    Employee queryByNameAndId(@Param("empName") String empName, @Param("id") Integer id);
+    @Override
+    public void setNonNullParameter(PreparedStatement preparedStatement, int i, MyEnum myEnum, JdbcType jdbcType)
+            throws SQLException {
 
+    }
+
+    @Override
+    public MyEnum getNullableResult(ResultSet resultSet, String s) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public MyEnum getNullableResult(ResultSet resultSet, int i) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public MyEnum getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
+        return null;
+    }
+
+}
+
+enum MyEnum {
+    ADMIN,
+    USER
 }

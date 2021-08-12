@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.ctong.learn.dao.SalaryDao">
+    <resultMap id="SalaryResultMap" type="top.ctong.learn.domain.Salary">
+        <id column="id" property="id"/>
+        <result column="money" property="money"/>
+        <result column="emp_id" property="empId"/>
+<!--        <result property="emp.id" column="emp_id"/>-->
+<!--        <result property="emp.email" column="email"/>-->
+<!--        <result property="emp.empName" column="emp_name"/>-->
+<!--        <result property="emp.gender" column="gender"/>-->
+        <association property="emp" javaType="top.ctong.learn.domain.Employee">
+            <id column="emp_id" property="id"/>
+            <result column="email" property="email"/>
+            <result column="emp_name" property="empName"/>
+            <result column="gender" property="gender"/>
+        </association>
+    </resultMap>
+
+    <select id="querySalaryAndEmp">
+        select t_salary.id as salary_id, t_salary.money, te.id as emp_id,
+               te.gender, te.emp_name, te.email
+        from t_salary
+             left join t_employee te on t_salary.emp_id = te.id
+    </select>
+
+    <select id="queryEmp">
+        select *
+        from t_employee
+    </select>
+
+    <select id="query" resultMap="SalaryResultMap">
+        select *
+        from t_salary
+    </select>
+</mapper>

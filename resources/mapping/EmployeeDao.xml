@@ -4,16 +4,48 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.ctong.learn.dao.EmployeeDao">
 
-    <resultMap id="employee" type="top.ctong.learn.domain.Employee">
-        <id column="id" property="id" javaType="java.lang.Integer"/>
+    <resultMap id="employee" type="Employee">
+        <id column="id" property="id" javaType="java.lang.Integer" typeHandler=""/>
         <result column="emp_name" property="empName" javaType="java.lang.String"/>
         <result column="gender" property="gender" javaType="java.lang.Short"/>
         <result column="email" property="email" javaType="java.lang.String"/>
+
+        <association property="id"/>
     </resultMap>
+
+    <sql id="insertSql">
+        insert into t_employee(emp_name, gender, email)
+            value (#{empName}, #{gender}, #{email})
+    </sql>
+
     <!--  T query(Integer id);  -->
     <select id="query" resultMap="employee">
         select *
         from t_employee
         where id = #{id}
     </select>
+
+    <insert id="insertReturnKey" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" order="AFTER" resultType="integer">
+            select max(id) + 1 from t_employee
+        </selectKey>
+        <include refid="insertSql"/>
+    </insert>
+
+    <insert id="insert" parameterType="employee">
+        <include refid="insertSql"/>
+    </insert>
+
+    <select id="queryByNameAndId" resultType="Employee">
+        select *
+        from t_employee
+        where emp_name = #{empName}
+          and id = #{id}
+    </select>
+
+    <select id="queryAll" resultMap="employee">
+        select *
+        from t_employee
+    </select>
 </mapper>
+

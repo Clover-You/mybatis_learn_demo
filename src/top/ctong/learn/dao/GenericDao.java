@@ -1,6 +1,5 @@
 package top.ctong.learn.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 /**
  * █████▒█      ██  ▄████▄   ██ ▄█▀     ██████╗ ██╗   ██╗ ██████╗
@@ -30,6 +29,12 @@ public interface GenericDao<T> extends BaseDao<T> {
      */
     int delete(T dao);
 
+    /**
+     * 新增dao
+     * @param dao 新增的对象
+     * @return 新增对象结果
+     */
+    int insertReturnKey(T dao);
 
     /**
      * 通过一个dao层对象条件查询一个对象

@@ -1,18 +1,25 @@
 # 依赖
 
 ```
+asm-7.1.jar
+cglib-3.3.0.jar
 com.springsource.net.sf.cglib-2.2.0.jar
 com.springsource.org.aopalliance-1.0.0.jar
 com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar
 commons-logging-1.1.3.jar
+commons-logging-1.2.jar
 hamcrest-core-1.3.jar
+javassist-3.27.0-GA.jar
 junit-4.13.1.jar
+log4j-1.2.17.jar
 log4j-api-2.14.1.jar
 log4j-core-2.14.1.jar
 lombok-1.18.20.jar
 mybatis-3.5.7.jar
 mysql-connector-java-8.0.21.jar
+ognl-3.2.20.jar
 slf4j-api-1.7.30.jar
+slf4j-log4j12-1.7.30.jar
 spring-aop-4.0.0.RELEASE.jar
 spring-aspects-4.0.0.RELEASE.jar
 spring-beans-4.0.0.RELEASE.jar
@@ -20,6 +27,7 @@ spring-context-4.0.0.RELEASE.jar
 spring-core-4.0.0.RELEASE.jar
 spring-expression-4.0.0.RELEASE.jar
 spring-test-4.0.0.RELEASE.jar
+spring-tx-4.0.0.RELEASE.jar
 spring-web-4.0.0.RELEASE.jar
 spring-webmvc-4.0.0.RELEASE.jar
 ```

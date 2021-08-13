@@ -56,7 +56,7 @@ public class EmployeeServiceImpl implements Serializable, EmployeeService {
      */
     @Override
     public int update(Employee dao) {
-        return 0;
+        return employeeDao.update(dao);
     }
 
     /**
@@ -137,6 +137,36 @@ public class EmployeeServiceImpl implements Serializable, EmployeeService {
     @Override
     public Employee queryByNameAndId(String empName, Integer id) {
         return employeeDao.queryByNameAndId(empName, id);
+    }
+
+    /**
+     * 通过id列表查询指定员工
+     * @param ids 员工id列表
+     * @return 员工信息
+     */
+    @Override
+    public List<Employee> queryEmployeeByIds(List<Integer> ids) {
+        return employeeDao.queryEmployeeByIds(ids);
+    }
+
+    /**
+     * 通过id列表查询指定员工，使用choose
+     * @param emp 员工id列表
+     * @return 员工信息
+     */
+    @Override
+    public List<Employee> queryEmpByIdsUseChoose(Employee emp) {
+        return employeeDao.queryEmpByIdsUseChoose(emp);
+    }
+
+    /**
+     * 从缓存中获取数据
+     * @param id 员工id
+     * @return 员工信息
+     */
+    @Override
+    public Employee queryInCache(Integer id) {
+        return employeeDao.queryInCache(id);
     }
 
 }

@@ -3,15 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.ctong.learn.dao.EmployeeDao">
-
+    <cache eviction="" flushInterval="" readOnly=""/>
     <resultMap id="employee" type="Employee">
-        <id column="id" property="id" javaType="java.lang.Integer" typeHandler=""/>
+        <id column="id" property="id" javaType="java.lang.Integer"/>
         <result column="emp_name" property="empName" javaType="java.lang.String"/>
         <result column="gender" property="gender" javaType="java.lang.Short"/>
         <result column="email" property="email" javaType="java.lang.String"/>
-
-        <association property="id"/>
     </resultMap>
+
+    <sql id="queryEmpSql">
+        select id, emp_name, gender, email
+        from t_employee
+    </sql>
 
     <sql id="insertSql">
         insert into t_employee(emp_name, gender, email)
@@ -20,8 +23,7 @@
 
     <!--  T query(Integer id);  -->
     <select id="query" resultMap="employee">
-        select *
-        from t_employee
+        <include refid="queryEmpSql"/>
         where id = #{id}
     </select>
 
@@ -43,9 +45,96 @@
           and id = #{id}
     </select>
 
-    <select id="queryAll" resultMap="employee">
+    <!--    <select id="queryAll" parameterType="Employee" resultMap="employee">-->
+    <!--        select *-->
+    <!--        from t_employee-->
+    <!--        <where>-->
+    <!--            <if test="empName!=null">-->
+    <!--                and emp_name=#{empName}-->
+    <!--            </if>-->
+    <!--            <if test="gender!=null">-->
+    <!--                and gender=#{gender}-->
+    <!--            </if>-->
+    <!--            <if test="email!=null">-->
+    <!--                and email=#{email}-->
+    <!--            </if>-->
+    <!--        </where>-->
+    <!--    </select>-->
+    <select id="queryAll" parameterType="Employee" resultMap="employee">
         select *
         from t_employee
+        <trim prefix="where " prefixOverrides="and " suffixOverrides=" and" suffix=";">
+            <if test="empName!=null">
+                and emp_name=#{empName}
+            </if>
+            <if test="gender!=null">
+                and gender=#{gender}
+            </if>
+            <if test="email!=null">
+                and email=#{email}
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryEmployeeByIds" resultMap="employee">
+        select * from t_employee
+        <if test="ids.size > 0">
+            where id in
+            <foreach collection="ids" open="(" close=")" index="index" item="id" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        <if test="ids.size == 0">
+            where 1!=1
+        </if>
+    </select>
+
+    <select id="queryEmpByIdsUseChoose" resultType="employee">
+        select *
+        from t_employee
+        <where>
+            <choose>
+                <when test="emp.id!=null">
+                    id=#{emp.id}
+                </when>
+                <when test="emp.empName!=null">
+                    emp_name=#{emp.empName}
+                </when>
+                <when test="emp.gender!=null">
+                    gender=#{emp.gender}
+                </when>
+                <otherwise>
+                    gender=0
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <update id="update">
+        update t_employee
+        <set>
+            <if test="empName!=null">
+                emp_name=#{empName},
+            </if>
+            <if test="gender!=null">
+                gender =#{gender},
+            </if>
+            <if test="email!=null">
+                email=#{email} ,
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <select id="queryInCache" resultMap="employee">
+        <include refid="queryEmpSql"/>
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+        </where>
     </select>
 </mapper>
 

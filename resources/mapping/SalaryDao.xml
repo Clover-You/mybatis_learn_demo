@@ -7,17 +7,24 @@
         <id column="id" property="id"/>
         <result column="money" property="money"/>
         <result column="emp_id" property="empId"/>
-<!--        <result property="emp.id" column="emp_id"/>-->
-<!--        <result property="emp.email" column="email"/>-->
-<!--        <result property="emp.empName" column="emp_name"/>-->
-<!--        <result property="emp.gender" column="gender"/>-->
-        <association property="emp" javaType="top.ctong.learn.domain.Employee">
-            <id column="emp_id" property="id"/>
-            <result column="email" property="email"/>
-            <result column="emp_name" property="empName"/>
-            <result column="gender" property="gender"/>
-        </association>
+<!--        <association property="emp" javaType="top.ctong.learn.domain.Employee">-->
+<!--            <id column="emp_id" property="id"/>-->
+<!--            <result column="email" property="email"/>-->
+<!--            <result column="emp_name" property="empName"/>-->
+<!--            <result column="gender" property="gender"/>-->
+<!--        </association>-->
+        <association property="emp" select="queryEmp" column="emp_id" fetchType="eager"/>
+        <!--        <collection property="emp" ofType="top.ctong.learn.domain.Employee">-->
+        <!--            <id column="emp_id" property="id"/>-->
+        <!--            <result column="email" property="email"/>-->
+        <!--            <result column="emp_name" property="empName"/>-->
+        <!--            <result column="gender" property="gender"/>-->
+        <!--        </collection>-->
     </resultMap>
+
+    <select id="queryEmp">
+        select * from t_employee
+    </select>
 
     <select id="querySalaryAndEmp">
         select t_salary.id as salary_id, t_salary.money, te.id as emp_id,
@@ -26,10 +33,6 @@
              left join t_employee te on t_salary.emp_id = te.id
     </select>
 
-    <select id="queryEmp">
-        select *
-        from t_employee
-    </select>
 
     <select id="query" resultMap="SalaryResultMap">
         select *

@@ -1,10 +1,9 @@
-package top.ctong.learn.dao;
+package top.ctong.test;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import top.ctong.learn.domain.Employee;
+import org.junit.Test;
 
-import java.util.List;
+import java.io.Serializable;
+
 /**
  * █████▒█      ██  ▄████▄   ██ ▄█▀     ██████╗ ██╗   ██╗ ██████╗
  * ▓██   ▒ ██  ▓██▒▒██▀ ▀█   ██▄█▒      ██╔══██╗██║   ██║██╔════╝
@@ -17,42 +16,20 @@ import java.util.List;
  * ░     ░ ░      ░  ░
  * Copyright 2021 Clover.
  * <p>
- * Employee 持久层
+ *
  * </p>
  * @author Clover
  * @version V1.0
- * @class EmployeeDao
- * @create 2021-08-09 4:43 下午
+ * @class SalaryTest
+ * @create 2021-08-12 15:32
  */
-@Mapper
-public interface EmployeeDao extends GenericDao<Employee> {
+public class SalaryTest implements Serializable {
 
-    /**
-     * 通过员工名和员工id查询员工信息
-     * @param empName 员工名
-     * @param id 员工id
-     * @return 员工详细信息
-     */
-    Employee queryByNameAndId(@Param("empName") String empName, @Param("id") Integer id);
+    private static final long serialVersionUID = -6579585611396406199L;
 
-    /**
-     * 通过id列表查询指定员工
-     * @param ids 员工id列表
-     * @return 员工信息
-     */
-    List<Employee> queryEmployeeByIds(@Param("ids") List<Integer> ids);
+    @Test
+    public void random() {
 
-    /**
-     * 通过id列表查询指定员工，使用choose
-     * @param emp 参数信息
-     * @return 员工信息
-     */
-    List<Employee> queryEmpByIdsUseChoose(@Param("emp") Employee emp);
+    }
 
-    /**
-     * 从缓存中获取数据
-     * @param id 员工id
-     * @return 员工信息
-     */
-    Employee queryInCache(@Param("id") Integer id);
 }

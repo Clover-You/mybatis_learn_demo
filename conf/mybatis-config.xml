@@ -5,7 +5,14 @@
 <configuration>
     <properties resource="jdbc-config.properties"/>
     <settings>
+        <!--    开启驼峰参数映射支持    -->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--    开启延迟加载    -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--    开启按需加载    -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!--    开启全局缓存    -->
+        <setting name="cacheEnabled" value="true"/>
     </settings>
     <typeAliases>
         <typeAlias type="top.ctong.learn.domain.Employee" alias="Employee"/>
@@ -30,51 +37,9 @@
         <property name="Sql Server" value="sqlserver"/>
     </databaseIdProvider>
     <mappers>
-<!--        <package name="com.ctong.learn.dao"/>-->
+        <!--        <package name="com.ctong.learn.dao"/>-->
         <mapper resource="mapping/EmployeeDao.xml"/>
         <mapper resource="mapping/SalaryDao.xml"/>
     </mappers>
-<!--    <mappers>-->
-<!--        &lt;!&ndash; 这里配置的是你的dao层的包名 &ndash;&gt;-->
-<!--        &lt;!&ndash;        <package name="com.ctong.learn.dao"/>&ndash;&gt;-->
-<!--        &lt;!&ndash;    引入每一个接口的实现配置文件    &ndash;&gt;-->
-<!--        <mapper resource="mapping/EmployeeDao.xml"/>-->
-<!--        &lt;!&ndash;        <package name="mapper/EmployeeDao.xml"/>&ndash;&gt;-->
-<!--    </mappers>-->
-    <!--    &lt;!&ndash; 配置一个资源配置文件 &ndash;&gt;-->
-    <!--    <properties resource="jdbc-config.properties"/>-->
-    <!--    <settings>-->
-    <!--        &lt;!&ndash;    开启驼峰命名自动映射    &ndash;&gt;-->
-    <!--        <setting name="mapUnderscoreToCamelCase" value="true"/>-->
-    <!--    </settings>-->
-
-    <!--    <typeAliases>-->
-    <!--        &lt;!&ndash; 这里配置的是一个类型 &ndash;&gt;-->
-    <!--        <package name="com.ctong.learn.domain"/>-->
-
-    <!--    </typeAliases>-->
-
-    <!--    <environments default="development">-->
-    <!--        <environment id="development">-->
-    <!--            &lt;!&ndash;  事务管理器  &ndash;&gt;-->
-    <!--            <transactionManager type="JDBC"/>-->
-    <!--            &lt;!&ndash;  配置连接池  &ndash;&gt;-->
-    <!--            <dataSource type="POOLED">-->
-    <!--                &lt;!&ndash; 这里根据`jdbc.properties`的配置来配置连接数据库 &ndash;&gt;-->
-    <!--                <property name="driver" value="${jdbc.driver}"/>-->
-    <!--                <property name="url" value="${jdbc.url}"/>-->
-    <!--                <property name="username" value="${jdbc.user}"/>-->
-    <!--                <property name="password" value="${jdbc.pass}"/>-->
-    <!--            </dataSource>-->
-    <!--        </environment>-->
-    <!--    </environments>-->
-
-<!--        <mappers>-->
-<!--            &lt;!&ndash; 这里配置的是你的dao层的包名 &ndash;&gt;-->
-<!--            &lt;!&ndash;        <package name="com.ctong.learn.dao"/>&ndash;&gt;-->
-<!--            &lt;!&ndash;    引入每一个接口的实现配置文件    &ndash;&gt;-->
-<!--            <mapper resource="mapping/EmployeeDao.xml"/>-->
-<!--            &lt;!&ndash;        <package name="mapper/EmployeeDao.xml"/>&ndash;&gt;-->
-<!--        </mappers>-->
 </configuration>
 
